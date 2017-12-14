@@ -1,0 +1,22 @@
+{
+  "name": "mern-app",
+  "version": "1.0.0",
+  "description": "Exam app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gilosmichaelcodev/MERN-Exam.git"
+  },
+  "author": "Michael Gilos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gilosmichaelcodev/MERN-Exam/issues"
+  },
+  "homepage": "https://github.com/gilosmichaelcodev/MERN-Exam#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
