@@ -19,7 +19,8 @@
   "homepage": "https://github.com/gilosmichaelcodev/MERN-Exam#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "lowdb": "^1.0.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
