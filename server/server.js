@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-
+const uuid = require('uuid');  
 const app = express();
 
 // Priority serve any static files.
@@ -55,6 +55,13 @@ app.post('/login', function (req, res) {
 });
 
 app.get('/users/:id', function (req, res) {
+  
+  for (var i = 0; i < userCache.length; i++) {
+    var user = userCache[i];
+    if (user.id === req.params.id)
+      res.status(200).send(user).end();  
+  }
+
   res.status(200).end();
 });
 
@@ -72,3 +79,18 @@ function start() {
 
 exports.start = start;
 exports.app = app;
+
+
+//test
+var userCache = [];
+
+app.addUser = function(user) {
+  user.id = uuid();
+  userCache.push(user);
+
+  return user.id;
+}
+
+app.clearUsers = function() {
+  userCache = [];
+}

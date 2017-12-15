@@ -1,4 +1,5 @@
 const request = require('supertest');
+const server = require('../../server/server.js');
 const app = require('../../server/server.js').app;
 const expect = require('chai').expect;    // Using Expect style
 
@@ -85,12 +86,37 @@ describe('Users API Routes', function() {
   });
 
   describe('GET /users/:id', function() {
-    it('should exist', function(done) {
-      var existingToken = 'token111';
+    var userId = "";
 
+    var user = { 
+      username: 'mike', 
+      password: 'pwd', 
+      fname: 'Michael', 
+      lname: 'G', 
+      email: 'pong@test.com'
+    }
+
+    beforeEach(function() {
+      userId = app.addUser(user);
+    });
+
+    afterEach(function() {
+      app.clearUsers();
+    });
+
+    it('should exist', function(done) {
       request(app)
-        .get('/users/' + existingToken)
+        .get('/users/' + userId)
         .expect(200, done);
+    });
+
+    it('should return user details using the id', function(done) {
+      request(app)
+        .get('/users/' + userId)
+        .expect(200, function(err, res) {
+          expect(res.body.username).to.equal(user.username);
+          done(err);
+        });
     });
   });
 
