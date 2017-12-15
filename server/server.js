@@ -50,8 +50,12 @@ app.post('/login', function (req, res) {
 
   if (uname != 'user')
     return res.status(401).json({error: 'Invalid username or password'}).end();
-    
+
   return res.status(200).json({token: 'token111'}).end();
+});
+
+app.get('/users/:id', function (req, res) {
+  res.status(200).end();
 });
 
 // All remaining requests return the React app, so it can handle routing.

@@ -84,4 +84,14 @@ describe('Users API Routes', function() {
     });
   });
 
+  describe('GET /users/:id', function() {
+    it('should exist', function(done) {
+      var existingToken = 'token111';
+
+      request(app)
+        .get('/users/' + existingToken)
+        .expect(200, done);
+    });
+  });
+
 });
