@@ -53,28 +53,32 @@ describe('Users API Routes', function() {
   });
 
   describe('POST /login', function() {
-    it('should exist', function(done) {
-      request(app)
-      .post('/login')
-      .expect(200, done);
-    });
-
     it('should return a session token for valid user', function(done) {
       var valid = { 
-        user : {
-          username: 'mike', 
-          password: 'pwd', 
-          fname: 'Michael', 
-          lname: 'G', 
-          email: 'pong@test.com'
-        }
-      }
+          username: 'user', 
+          password: 'pwd'
+      };
 
       request(app)
         .post('/login')
         .send(valid)
         .expect(200, function(err, res) {
           expect(res.body.token).to.equal('token111');
+          done(err);
+        });
+    });
+
+    it('should return error if using invalid credentials', function(done) {
+      var invalid = { 
+          username: 'noname', 
+          password: 'pwd'
+      };
+
+      request(app)
+        .post('/login')
+        .send(invalid)
+        .expect(401, function(err, res) {
+          expect(res.body.error).to.equal('Invalid username or password');
           done(err);
         });
     });

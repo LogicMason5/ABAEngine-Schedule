@@ -45,6 +45,12 @@ app.post('/users', function (req, res) {
 });
 
 app.post('/login', function (req, res) {
+  var uname = req.body.username;
+  var pwd = req.body.password;
+
+  if (uname != 'user')
+    return res.status(401).json({error: 'Invalid username or password'}).end();
+    
   return res.status(200).json({token: 'token111'}).end();
 });
 
