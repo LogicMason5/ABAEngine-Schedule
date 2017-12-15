@@ -52,4 +52,12 @@ describe('Users API Routes', function() {
     
   });
 
+  describe('POST /login', function() {
+    it('should exist', function(done) {
+      request(app)
+      .post('/login')
+      .expect(200, done);
+    });
+  });
+
 });

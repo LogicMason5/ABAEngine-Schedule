@@ -44,6 +44,10 @@ app.post('/users', function (req, res) {
               .end();
 });
 
+app.post('/login', function (req, res) {
+  return res.status(200).end();
+});
+
 // All remaining requests return the React app, so it can handle routing.
 app.get('*', function(request, response) {
   response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
