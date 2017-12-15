@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Handle API requests.
-app.post('/users', function (req, res) {
+app.post('/api/users', function (req, res) {
   var user = req.body.user;
 
   // console.log(' req.body',  req.body);
@@ -44,7 +44,7 @@ app.post('/users', function (req, res) {
               .end();
 });
 
-app.post('/login', function (req, res) {
+app.post('/api/login', function (req, res) {
   var uname = req.body.username;
   var pwd = req.body.password;
 
@@ -54,15 +54,21 @@ app.post('/login', function (req, res) {
   return res.status(200).json({token: 'token111'}).end();
 });
 
-app.get('/users/:id', function (req, res) {
-  
+app.get('/api/users/:id', function (req, res) {
+  console.log('/api/users/:id', req.params.id);
+
   for (var i = 0; i < userCache.length; i++) {
     var user = userCache[i];
     if (user.id === req.params.id)
-      res.status(200).send(user).end();  
+      return res.status(200).send(user).end();  
   }
 
-  res.status(200).end();
+  return res.status(200).end();
+});
+
+app.get('/api/use/test', function (req, res) {
+  console.log('/api/use/test');
+  return res.status(200).json({'user': 'mike'}).end();
 });
 
 // All remaining requests return the React app, so it can handle routing.

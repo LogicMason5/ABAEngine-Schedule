@@ -5,12 +5,12 @@ const expect = require('chai').expect;    // Using Expect style
 
 describe('Users API Routes', function() {  
   
-  describe('POST /users', function() {
+  describe('POST /api/users', function() {
 
     describe('INVALID USER', function() {
       it('should accept a user object as param', function(done) {
         request(app)
-          .post('/users')
+          .post('/api/users')
           .expect(400, done);
       });
 
@@ -19,7 +19,7 @@ describe('Users API Routes', function() {
         var empty = {};
 
         request(app)
-          .post('/users')
+          .post('/api/users')
           .send(empty)
           .expect(400)
           .end(function(err, res) {
@@ -43,7 +43,7 @@ describe('Users API Routes', function() {
       }
 
       request(app)
-        .post('/users')
+        .post('/api/users')
         .send(valid)
         .expect(201, function(err, res) {
           expect(res.body.id).to.equal('101');
@@ -53,7 +53,7 @@ describe('Users API Routes', function() {
     
   });
 
-  describe('POST /login', function() {
+  describe('POST /api/login', function() {
     it('should return a session token for valid user', function(done) {
       var valid = { 
           username: 'user', 
@@ -61,7 +61,7 @@ describe('Users API Routes', function() {
       };
 
       request(app)
-        .post('/login')
+        .post('/api/login')
         .send(valid)
         .expect(200, function(err, res) {
           expect(res.body.token).to.equal('token111');
@@ -76,7 +76,7 @@ describe('Users API Routes', function() {
       };
 
       request(app)
-        .post('/login')
+        .post('/api/login')
         .send(invalid)
         .expect(401, function(err, res) {
           expect(res.body.error).to.equal('Invalid username or password');
@@ -85,7 +85,7 @@ describe('Users API Routes', function() {
     });
   });
 
-  describe('GET /users/:id', function() {
+  describe('GET /api/users/:id', function() {
     var userId = "";
 
     var user = { 
@@ -98,26 +98,32 @@ describe('Users API Routes', function() {
 
     beforeEach(function() {
       userId = app.addUser(user);
+      console.log(userId);
     });
 
-    afterEach(function() {
-      app.clearUsers();
-    });
+    // afterEach(function() {
+    //   app.clearUsers();
+    // });
 
     it('should exist', function(done) {
       request(app)
-        .get('/users/' + userId)
+        .get('/api/users/' + userId)
         .expect(200, done);
     });
 
     it('should return user details using the id', function(done) {
       request(app)
-        .get('/users/' + userId)
+        .get('/api/users/' + userId)
         .expect(200, function(err, res) {
           expect(res.body.username).to.equal(user.username);
+          expect(res.body.fname).to.equal(user.fname);
+          expect(res.body.password).to.equal(user.password);
+          expect(res.body.lname).to.equal(user.lname);
+          expect(res.body.email).to.equal(user.email);
           done(err);
         });
     });
+
   });
 
 });
