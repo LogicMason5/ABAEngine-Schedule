@@ -10,7 +10,7 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.post('/users', function (req, res) {
   // res.set('Content-Type', 'application/json');
   // res.send('{"message":"Hello from the custom server!"}');
-  return res.status(200).end();
+  return res.status(201).end();
 });
 
 // All remaining requests return the React app, so it can handle routing.

@@ -4,10 +4,10 @@ const app = require('../../server/server.js').app;
 describe('Users API Routes', function() {  
 
   describe('POST /users', function() {
-    it('exist', function(done) {
+    it('create a new user', function(done) {
         request(app)
           .post('/users')
-          .expect(200, done);
+          .expect(201, done);
     });
   });
 
