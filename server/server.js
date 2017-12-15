@@ -1,15 +1,21 @@
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
 
 const app = express();
 
 // Priority serve any static files.
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 // Handle API requests.
 app.post('/users', function (req, res) {
-  var user = req.params.user;
-  
+  var user = req.body.user;
+
+  // console.log(' req.body',  req.body);
+
   function hasRequiredUserProps(user) {
     return missingRequiredUserProps(user).length == 0;
   }
@@ -29,7 +35,9 @@ app.post('/users', function (req, res) {
   }
 
   if (hasRequiredUserProps(user))
-    return res.status(201).end();
+    return res.status(201)
+              .json({id: '101'})
+              .end();
   else 
     return res.status(400)
               .send({'required': missingRequiredUserProps(user)})

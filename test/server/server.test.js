@@ -22,13 +22,32 @@ describe('Users API Routes', function() {
           .send(empty)
           .expect(400)
           .end(function(err, res) {
-            console.log('res', res.body);
             expect(res.body).to.have.property('required');
             expect(res.body.required).to.have.lengthOf(required.length);
             expect(res.body.required).to.deep.equal(required);
             done(err);
           });
       });
+    });
+
+    it('returns the id of the created user', function(done) {
+      var valid = { 
+        user : {
+          username: 'mike', 
+          password: 'pwd', 
+          fname: 'Michael', 
+          lname: 'G', 
+          email: 'pong@test.com'
+        }
+      }
+
+      request(app)
+        .post('/users')
+        .send(valid)
+        .expect(201, function(err, res) {
+          expect(res.body.id).to.equal('101');
+          done(err);
+        });
     });
     
   });
