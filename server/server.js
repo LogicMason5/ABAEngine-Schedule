@@ -8,9 +8,24 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 // Handle API requests.
 app.post('/users', function (req, res) {
-  // res.set('Content-Type', 'application/json');
-  // res.send('{"message":"Hello from the custom server!"}');
-  return res.status(201).end();
+  var params = req.params;
+  
+  function hasRequiredUserProps(user) {
+    var requiredProps = ['username', 'password', 'fname', 'lname', 'email']; 
+
+    if (!user) return false;
+
+    requiredProps.forEach(function(prop) {
+      if (!user.hasOwnProperty(prop)) return false;
+    });
+
+    return true;
+  }
+
+  if (hasRequiredUserProps(req.params.user))
+    return res.status(201).end();
+  else 
+    return res.status(400).end();
 });
 
 // All remaining requests return the React app, so it can handle routing.
