@@ -8,24 +8,32 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 // Handle API requests.
 app.post('/users', function (req, res) {
-  var params = req.params;
+  var user = req.params.user;
   
   function hasRequiredUserProps(user) {
+    return missingRequiredUserProps(user).length == 0;
+  }
+
+  function missingRequiredUserProps(user) {
     var requiredProps = ['username', 'password', 'fname', 'lname', 'email']; 
+    var missing = [];
 
     if (!user) return false;
 
     requiredProps.forEach(function(prop) {
-      if (!user.hasOwnProperty(prop)) return false;
+      if (!user.hasOwnProperty(prop)) 
+        missing.push(prop);
     });
 
-    return true;
+    return missing.length;
   }
 
-  if (hasRequiredUserProps(req.params.user))
+  if (hasRequiredUserProps(user))
     return res.status(201).end();
   else 
-    return res.status(400).end();
+    return res.status(400)
+              .send({'required': missingRequiredUserProps(user)})
+              .end();
 });
 
 // All remaining requests return the React app, so it can handle routing.
