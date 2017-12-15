@@ -45,7 +45,7 @@ app.post('/users', function (req, res) {
 });
 
 app.post('/login', function (req, res) {
-  return res.status(200).end();
+  return res.status(200).json({token: 'token111'}).end();
 });
 
 // All remaining requests return the React app, so it can handle routing.

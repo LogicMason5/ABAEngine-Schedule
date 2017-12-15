@@ -58,6 +58,26 @@ describe('Users API Routes', function() {
       .post('/login')
       .expect(200, done);
     });
+
+    it('should return a session token for valid user', function(done) {
+      var valid = { 
+        user : {
+          username: 'mike', 
+          password: 'pwd', 
+          fname: 'Michael', 
+          lname: 'G', 
+          email: 'pong@test.com'
+        }
+      }
+
+      request(app)
+        .post('/login')
+        .send(valid)
+        .expect(200, function(err, res) {
+          expect(res.body.token).to.equal('token111');
+          done(err);
+        });
+    });
   });
 
 });
