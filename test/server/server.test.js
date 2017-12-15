@@ -3,7 +3,7 @@ const app = require('../../server/server.js').app;
 const expect = require('chai').expect;    // Using Expect style
 
 describe('Users API Routes', function() {  
-
+  
   describe('POST /users', function() {
 
     describe('INVALID USER', function() {
@@ -14,6 +14,7 @@ describe('Users API Routes', function() {
       });
 
       it('returns the missing required properties', function(done) {
+        var required = ['username', 'password', 'fname', 'lname', 'email']; 
         var empty = {};
 
         request(app)
@@ -21,7 +22,10 @@ describe('Users API Routes', function() {
           .send(empty)
           .expect(400)
           .end(function(err, res) {
-            expect(res.body).to.have.property('required')
+            console.log('res', res.body);
+            expect(res.body).to.have.property('required');
+            expect(res.body.required).to.have.lengthOf(required.length);
+            expect(res.body.required).to.deep.equal(required);
             done(err);
           });
       });

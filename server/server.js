@@ -18,14 +18,14 @@ app.post('/users', function (req, res) {
     var requiredProps = ['username', 'password', 'fname', 'lname', 'email']; 
     var missing = [];
 
-    if (!user) return false;
+    if (!user) return requiredProps;
 
     requiredProps.forEach(function(prop) {
       if (!user.hasOwnProperty(prop)) 
         missing.push(prop);
     });
 
-    return missing.length;
+    return missing;
   }
 
   if (hasRequiredUserProps(user))
