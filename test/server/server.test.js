@@ -7,50 +7,66 @@ describe('Users API Routes', function() {
   
   describe('POST /api/users', function() {
 
-    describe('INVALID USER', function() {
-      it('should accept a user object as param', function(done) {
-        request(app)
-          .post('/api/users')
-          .expect(400, done);
-      });
+    it('should accept a user object as param', function(done) {
+      request(app)
+        .post('/api/users')
+        .expect(400, done);
+    });
 
-      it('returns the missing required properties', function(done) {
-        var required = ['username', 'password', 'fname', 'lname', 'email']; 
-        var empty = {};
+    it('should require a user object as param', function(done) {
+      var required = ['user object {user}'];
+      var param = {};
 
-        request(app)
-          .post('/api/users')
-          .send(empty)
-          .expect(400)
-          .end(function(err, res) {
-            expect(res.body).to.have.property('required');
-            expect(res.body.required).to.have.lengthOf(required.length);
-            expect(res.body.required).to.deep.equal(required);
-            done(err);
-          });
-      });
+      request(app)
+        .post('/api/users')
+        .send(param)
+        .expect(400)
+        .end(function(err, res) {
+          expect(res.body).to.have.property('required');
+          expect(res.body.required).to.have.lengthOf(required.length);
+          expect(res.body.required).to.deep.equal(required);
+          done(err);
+        });
+    });
+
+
+    it('returns the missing required properties', function(done) {
+      var required = ['username', 'password', 'fname', 'lname', 'email']; 
+      var param = { user: {}};
+
+      request(app)
+        .post('/api/users')
+        .send(param)
+        .expect(400)
+        .end(function(err, res) {
+          expect(res.body).to.have.property('required');
+          expect(res.body.required).to.have.lengthOf(required.length);
+          expect(res.body.required).to.deep.equal(required);
+          done(err);
+        });
     });
 
     it('returns the id of the created user', function(done) {
-      var valid = { 
-        user : {
-          username: 'mike', 
-          password: 'pwd', 
-          fname: 'Michael', 
-          lname: 'G', 
-          email: 'pong@test.com'
+      var param = {
+        user: { 
+        username: 'mike', 
+        password: 'pwd', 
+        fname: 'Michael', 
+        lname: 'G', 
+        email: 'pong@test.com'
         }
       }
 
       request(app)
         .post('/api/users')
-        .send(valid)
+        .send(param)
         .expect(201, function(err, res) {
-          expect(res.body.id).to.equal('101');
+          console.log('.post(api/users)', res.body);
+          expect(res.body).to.have.property('id');
           done(err);
         });
     });
-    
+
   });
 
   describe('POST /api/login', function() {

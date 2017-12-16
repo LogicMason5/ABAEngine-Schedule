@@ -24,7 +24,7 @@ app.post('/api/users', function (req, res) {
     var requiredProps = ['username', 'password', 'fname', 'lname', 'email']; 
     var missing = [];
 
-    if (!user) return requiredProps;
+    if (!user) return ['user object {user}'];
 
     requiredProps.forEach(function(prop) {
       if (!user.hasOwnProperty(prop)) 
@@ -34,14 +34,17 @@ app.post('/api/users', function (req, res) {
     return missing;
   }
 
-  if (hasRequiredUserProps(user))
+  if (hasRequiredUserProps(user)) {
+    var uid = app.addUser(user);
+    
     return res.status(201)
-              .json({id: '101'})
+              .json({id: uid})
               .end();
-  else 
+  } else {
     return res.status(400)
               .send({'required': missingRequiredUserProps(user)})
               .end();
+  }
 });
 
 app.post('/api/login', function (req, res) {
@@ -58,7 +61,7 @@ app.post('/api/login', function (req, res) {
 });
 
 app.get('/api/users/:id', function (req, res) {
-  console.log('/api/users/:id', req.params.id);
+  // console.log('/api/users/:id', req.params.id);
 
   for (var i = 0; i < userCache.length; i++) {
     var user = userCache[i];
@@ -70,7 +73,7 @@ app.get('/api/users/:id', function (req, res) {
 });
 
 app.get('/api/use/test', function (req, res) {
-  console.log('/api/use/test');
+  // console.log('/api/use/test');
   return res.status(200).json({'user': 'mike'}).end();
 });
 
