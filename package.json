@@ -18,9 +18,13 @@
   },
   "homepage": "https://github.com/gilosmichaelcodev/MERN-Exam#readme",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
-    "lowdb": "^1.0.0"
+    "express-session": "^1.15.6",
+    "jsonwebtoken": "^8.1.0",
+    "lowdb": "^1.0.0",
+    "morgan": "^1.9.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
