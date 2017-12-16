@@ -54,25 +54,41 @@ describe('Users API Routes', function() {
   });
 
   describe('POST /api/login', function() {
+    var user = { 
+      username: 'mike', 
+      password: 'pwd', 
+      fname: 'Michael', 
+      lname: 'G', 
+      email: 'pong@test.com'
+    }
+
+    beforeEach(function() {
+      userId = app.addUser(user);
+    });
+
+    afterEach(function() {
+      app.clearUsers();
+    });
+
     it('should return a session token for valid user', function(done) {
-      var valid = { 
-          username: 'user', 
-          password: 'pwd'
+      var validLogin = {
+        username: user.username, 
+        password: user.password
       };
 
       request(app)
         .post('/api/login')
-        .send(valid)
+        .send(validLogin)
         .expect(200, function(err, res) {
-          expect(res.body.token).to.equal('token111');
+          expect(res.body).to.have.property('token');
           done(err);
         });
     });
 
     it('should return error if using invalid credentials', function(done) {
       var invalid = { 
-          username: 'noname', 
-          password: 'pwd'
+        username: 'xxx', 
+        password: 'xxx'
       };
 
       request(app)
@@ -98,12 +114,11 @@ describe('Users API Routes', function() {
 
     beforeEach(function() {
       userId = app.addUser(user);
-      console.log(userId);
     });
 
-    // afterEach(function() {
-    //   app.clearUsers();
-    // });
+    afterEach(function() {
+      app.clearUsers();
+    });
 
     it('should exist', function(done) {
       request(app)

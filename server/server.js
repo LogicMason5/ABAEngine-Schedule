@@ -48,10 +48,13 @@ app.post('/api/login', function (req, res) {
   var uname = req.body.username;
   var pwd = req.body.password;
 
-  if (uname != 'user')
-    return res.status(401).json({error: 'Invalid username or password'}).end();
+  for (var i = 0; i < userCache.length; i++) {
+    var user = userCache[i];
+    if (user.username === uname && user.password === pwd)
+      return res.status(200).send({token: uuid()}).end();  
+  }
 
-  return res.status(200).json({token: 'token111'}).end();
+  return res.status(401).json({error: 'Invalid username or password'}).end();
 });
 
 app.get('/api/users/:id', function (req, res) {
@@ -88,7 +91,7 @@ exports.app = app;
 
 
 //test
-var userCache = [];
+var userCache = [{id: '101', username: 'test account'}];
 
 app.addUser = function(user) {
   user.id = uuid();
