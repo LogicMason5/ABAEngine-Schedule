@@ -36,7 +36,7 @@ app.post('/api/users', function (req, res) {
 
   if (hasRequiredUserProps(user)) {
     var uid = app.addUser(user);
-    
+
     return res.status(201)
               .json({id: uid})
               .end();
@@ -70,11 +70,6 @@ app.get('/api/users/:id', function (req, res) {
   }
 
   return res.status(200).end();
-});
-
-app.get('/api/use/test', function (req, res) {
-  // console.log('/api/use/test');
-  return res.status(200).json({'user': 'mike'}).end();
 });
 
 // All remaining requests return the React app, so it can handle routing.
