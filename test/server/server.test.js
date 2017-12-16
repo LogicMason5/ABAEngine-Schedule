@@ -61,7 +61,6 @@ describe('Users API Routes', function() {
         .post('/api/users')
         .send(param)
         .expect(201, function(err, res) {
-          console.log('.post(api/users)', res.body);
           expect(res.body).to.have.property('id');
           done(err);
         });

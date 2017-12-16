@@ -3,6 +3,9 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const uuid = require('uuid');  
 const app = express();
+const morgan = require('morgan');
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 
 // Priority serve any static files.
 app.use(express.static(path.resolve(__dirname, '../client/build')));
