@@ -13,46 +13,10 @@ class App extends Component {
     super(props);
   }
 
-  componentDidMount() {
-    /*
-    fetch('/api/users/4f3a88e4-2ea8-45ce-bbe5-52337fd0a72d', {method: 'GET'})
-        // .then((resp) => {
-        //   if (!resp.ok) throw Error(resp.statusText);
-        //   return resp;
-        // })
-        .then((resp) => {
-          console.log(resp);
-          return resp.json();
-        })
-        // .then((resp) => resp.json())
-        .then((values) => console.log(values))
-        .catch(function(error) {
-          console.log(error);
-        }); 
-        */
-    // fetch('/api/users', {
-    //   method: 'POST',
-    //   body: JSON.stringify(data),
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   }})
-    //   .then((resp) => resp.json())
-    //   .then((values) => console.log(values));
-  
-    // event.preventDefault();
-  }
-
   render() {
     return (
       <div className="App">
         <Header />
-        {/* <Router {...props}>
-          <Route path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="*" component={NotFound} />
-        </Router> */}
-
         <Switch>
           <Route exact path='/' component={Home}/>
           <Route exact path='/login' component={Login}/>
