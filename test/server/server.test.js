@@ -9,6 +9,10 @@ const config = require('../../config');
 
 describe('Users API Routes', function() {  
   
+  before(function() {
+    userRepository.clear();
+  });
+
   describe('POST /api/users', function() {
 
     it('should accept a user object as param', function(done) {
@@ -145,6 +149,8 @@ describe('Users API Routes', function() {
         .send(validLogin)
         .expect(200, function(err, res) {
           expect(res.body).to.have.property('token');
+          expect(res.body).to.have.property('userId');
+          expect(res.body.userId).to.equal(userId);
           var decoded = jwt.verify(res.body.token, config.secret);
           expect(userId).to.equal(decoded.id);
           done(err);
@@ -195,6 +201,7 @@ describe('Users API Routes', function() {
 
     beforeEach(function() {
       userId = userRepository.addUser(user);
+
       request(app)
         .post('/api/login')
         .send({

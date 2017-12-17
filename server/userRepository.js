@@ -57,3 +57,7 @@ exports.propertyExist = function(prop) {
            .find(prop)
            .value() 
 }
+
+exports.clear = function() {
+  init();
+}
