@@ -72,6 +72,10 @@ app.post('/api/login', function (req, res) {
     return res.status(401).json({error: 'Invalid username or password'}).end();
 });
 
+app.post('/api/logout', function (req, res) {
+  return res.status(200).end(); 
+});
+
 app.get('/api/users/:id', function (req, res) {
   var user = userRepo.findUserById(req.params.id);
 

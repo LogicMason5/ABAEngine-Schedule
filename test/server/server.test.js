@@ -222,4 +222,12 @@ describe('Users API Routes', function() {
 
   });
 
+  describe('POST /api/logout', function() {
+    it('should exist', function(done) {
+      request(app)
+        .post('/api/logout')
+        .expect(200, done);
+    });
+  });
+
 });
