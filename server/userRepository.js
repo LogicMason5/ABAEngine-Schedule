@@ -19,3 +19,15 @@ exports.addUser = function(user) {
 
   return user.id;
 }
+
+exports.findUserById = function(userId) {
+  return db.get('users')
+           .find({ id: userId })
+           .value();
+}
+
+exports.removeUserById = function(userId) {
+  db.get('users')
+    .remove({ id: userId })
+    .write()
+}

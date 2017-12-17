@@ -2,6 +2,7 @@ const request = require('supertest');
 const server = require('../../server/server.js');
 const app = require('../../server/server.js').app;
 const expect = require('chai').expect;    // Using Expect style
+const userRepository = require('../../server/userRepository');
 
 describe('Users API Routes', function() {  
   
@@ -62,13 +63,14 @@ describe('Users API Routes', function() {
         .send(param)
         .expect(201, function(err, res) {
           expect(res.body).to.have.property('id');
+          userRepository.removeUserById(res.body.id);
           done(err);
         });
     });
 
   });
 
-  describe('POST /api/login', function() {
+  xdescribe('POST /api/login', function() {
     var user = { 
       username: 'mike', 
       password: 'pwd', 
@@ -128,11 +130,11 @@ describe('Users API Routes', function() {
     }
 
     beforeEach(function() {
-      userId = app.addUser(user);
+      userId = userRepository.addUser(user);
     });
 
     afterEach(function() {
-      app.clearUsers();
+      userRepository.removeUserById(userId);
     });
 
     it('should exist', function(done) {

@@ -63,15 +63,13 @@ app.post('/api/login', function (req, res) {
 });
 
 app.get('/api/users/:id', function (req, res) {
-  // console.log('/api/users/:id', req.params.id);
+  var user = userRepo.findUserById(req.params.id);
 
-  for (var i = 0; i < userCache.length; i++) {
-    var user = userCache[i];
-    if (user.id === req.params.id)
-      return res.status(200).send(user).end();  
+  if (user) {
+    return res.status(200).json(user).end();  
   }
 
-  return res.status(200).end();
+  return res.status(404).end();
 });
 
 // All remaining requests return the React app, so it can handle routing.
