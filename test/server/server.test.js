@@ -3,6 +3,7 @@ const server = require('../../server/server.js');
 const app = require('../../server/server.js').app;
 const expect = require('chai').expect;  
 const userRepository = require('../../server/userRepository');
+const bcrypt = require('bcrypt');
 
 describe('Users API Routes', function() {  
   
@@ -153,7 +154,7 @@ describe('Users API Routes', function() {
         .expect(200, function(err, res) {
           expect(res.body.username).to.equal(user.username);
           expect(res.body.fname).to.equal(user.fname);
-          expect(res.body.password).to.equal(user.password);
+          expect(bcrypt.compareSync(user.password, res.body.password)).to.be.true;
           expect(res.body.lname).to.equal(user.lname);
           expect(res.body.email).to.equal(user.email);
           done(err);

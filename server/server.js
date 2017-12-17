@@ -50,7 +50,7 @@ app.post('/api/users', function (req, res) {
 });
 
 app.post('/api/login', function (req, res) {
-  var user = userRepo.findUser({
+  var user = userRepo.findUserWithLogin({
     username: req.body.username,
     password: req.body.password
   });

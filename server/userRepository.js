@@ -19,19 +19,24 @@ function encrypPassword(password) {
 }
 
 exports.addUser = function(user) {
-  user.id = shortid.generate();
-  user.password = encrypPassword(user.password);
+  var newUser = Object.assign({}, user);
+
+  newUser.id = shortid.generate();
+  newUser.password = encrypPassword(user.password);
 
   db.get('users')
-    .push(user)
+    .push(newUser)
     .write();
 
-  return user.id;
+  return newUser.id;
 }
 
-exports.findUser = function(prop) {
+exports.findUserWithLogin = function(prop) {
   return db.get('users')
-           .find(prop)
+           .find(function(user) {
+              return (prop.username === user.username 
+                  && bcrypt.compareSync(prop.password, user.password));
+           })
            .value();
 }
 
