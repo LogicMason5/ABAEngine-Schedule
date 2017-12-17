@@ -119,7 +119,7 @@ function UserList(props) {
   );
   return (
     <div>
-      <h1>All Users</h1>
+      <h2>All Users</h2>
       <ul>{listItems}</ul>
     </div>
   );
