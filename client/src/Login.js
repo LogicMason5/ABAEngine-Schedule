@@ -41,8 +41,9 @@ class Login extends Component {
           if (data.error) {
             alert(data.error);
           } else {
-            sessionStorage.setItem('token', data.token);
-            sessionStorage.setItem('userId', data.userId);
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('userId', data.userId);
+            
             this.props.history.push('/');
           }
         });

@@ -15,18 +15,25 @@ class Home extends Component {
     this.handleLogout = this.handleLogout.bind(this);
   }
 
-  handleLogout(event) {}
+  handleLogout(event) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+
+    this.props.history.push('/login');
+
+    event.preventDefault();
+  }
 
   componentDidMount() {
-    if (!sessionStorage.getItem('token'))
+    if (!localStorage.getItem('token'))
       this.props.history.push('/login');
     else
       this.showUserDetails();
   }
 
   showUserDetails() {
-    const userId = sessionStorage.getItem('userId');
-    const token = sessionStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
 
     fetch('/api/users/' + userId, {
           method: 'GET',
@@ -37,12 +44,13 @@ class Home extends Component {
         })
         .then((resp) => resp.json())
         .then((data) => {
-          if (data.message) {
-            alert(data.message);
-          }
-          
-          // sessionStorage.setItem('token', data.token);
           console.log(data);
+
+          if (data.error) {
+            alert(data.error);
+          } else {
+            this.setState(data);
+          }
         });
 
   }
