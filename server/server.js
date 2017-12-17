@@ -5,8 +5,7 @@ const uuid = require('uuid');
 const app = express();
 const morgan = require('morgan');
 const userRepo = require('./userRepository');
-const jwt = require('jsonwebtoken');
-const config = require('../config');
+const authZToken = require('./AuthZToken');
 
 app.use(morgan(':method :url :status'));
 
@@ -63,10 +62,6 @@ app.post('/api/users', function (req, res) {
 });
 
 app.post('/api/login', function (req, res) {
-  function signToken(userId) {
-    return jwt.sign({ id: userId }, config.secret, { expiresIn: '1h'});
-  }
-
   var user = userRepo.findUserWithLogin({
     username: req.body.username,
     password: req.body.password
@@ -76,7 +71,7 @@ app.post('/api/login', function (req, res) {
     return res.status(200)
               .json({
                 userId: user.id, 
-                token: signToken(user.id)
+                token: authZToken.signToken({id: user.id})
               })
               .end();  
   }
@@ -88,33 +83,11 @@ app.post('/api/logout', function (req, res) {
   return res.status(200).end(); 
 });
 
-app.get('/api/users', function (req, res) {
-  var token = req.headers['x-access-token'];
-  if (!token) 
-    return res.status(401).send({ error: 'No token provided' });
-
-  // invalid token - synchronous
-  try {
-    var decoded = jwt.verify(token, config.secret);
-  } catch(err) {
-    return res.status(500).send({ error: 'Failed to authenticate token' });
-  }
-
+app.get('/api/users', authZToken.verifyToken, function (req, res) {
   return res.status(200).json(userRepo.allUsers()).end();  
 });
 
-app.get('/api/users/:id', function (req, res) {
-  var token = req.headers['x-access-token'];
-  if (!token) 
-    return res.status(401).send({ error: 'No token provided' });
-
-  // invalid token - synchronous
-  try {
-    var decoded = jwt.verify(token, config.secret);
-  } catch(err) {
-    return res.status(500).send({ error: 'Failed to authenticate token' });
-  }
-
+app.get('/api/users/:id', authZToken.verifyToken, function (req, res) {
   var user = userRepo.findUserById(req.params.id);
   if (user) {
     return res.status(200).json(user).end();  

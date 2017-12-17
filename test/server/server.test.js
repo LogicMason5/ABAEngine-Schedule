@@ -242,7 +242,7 @@ describe('Users API Routes', function() {
       it('should return an error if no token is present', function(done) {
         request(app)
           .get('/api/users/' + userId)
-          .expect(401, function(err, res) {
+          .expect(403, function(err, res) {
             expect(res.body.error).to.equal('No token provided');
             done(err);
           });
