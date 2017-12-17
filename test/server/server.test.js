@@ -222,7 +222,7 @@ describe('Users API Routes', function() {
         request(app)
           .get('/api/users/' + userId)
           .expect(401, function(err, res) {
-            expect(res.body.message).to.equal('No token provided');
+            expect(res.body.error).to.equal('No token provided');
             done(err);
           });
       });
@@ -232,7 +232,7 @@ describe('Users API Routes', function() {
           .get('/api/users/' + userId)
           .set('x-access-token', 'someRandomToken')
           .expect(500, function(err, res) {
-            expect(res.body.message).to.equal('Failed to authenticate token');
+            expect(res.body.error).to.equal('Failed to authenticate token');
             done(err);
           });
       });
@@ -245,7 +245,7 @@ describe('Users API Routes', function() {
           .get('/api/users/' + invalidUserId)
           .set('x-access-token', token)
           .expect(404, function(err, res) {
-            expect(res.body.message).to.equal('No user found');
+            expect(res.body.error).to.equal('No user found');
             done(err);
           });
       });

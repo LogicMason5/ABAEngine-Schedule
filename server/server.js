@@ -91,13 +91,13 @@ app.post('/api/logout', function (req, res) {
 app.get('/api/users/:id', function (req, res) {
   var token = req.headers['x-access-token'];
   if (!token) 
-    return res.status(401).send({ message: 'No token provided' });
+    return res.status(401).send({ error: 'No token provided' });
 
   // invalid token - synchronous
   try {
     var decoded = jwt.verify(token, config.secret);
   } catch(err) {
-    return res.status(500).send({ message: 'Failed to authenticate token' });
+    return res.status(500).send({ error: 'Failed to authenticate token' });
   }
 
   var user = userRepo.findUserById(req.params.id);
@@ -105,7 +105,7 @@ app.get('/api/users/:id', function (req, res) {
     return res.status(200).json(user).end();  
   }
 
-  return res.status(404).json({message: 'No user found'}).end();
+  return res.status(404).json({error: 'No user found'}).end();
 });
 
 // All remaining requests return the React app, so it can handle routing.
