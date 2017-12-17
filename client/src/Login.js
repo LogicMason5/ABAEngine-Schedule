@@ -43,7 +43,7 @@ class Login extends Component {
           } else {
             localStorage.setItem('token', data.token);
             localStorage.setItem('userId', data.userId);
-            
+
             this.props.history.push('/');
           }
         });
@@ -56,7 +56,7 @@ class Login extends Component {
       <div>
         <form onSubmit={this.handleSubmit}>
           <label>
-            Email:
+            Username:
             <input type="text" name="username" onChange={this.handleChange}/>
           </label>
 
