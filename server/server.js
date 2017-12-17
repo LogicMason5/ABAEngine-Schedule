@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const uuid = require('uuid');  
 const app = express();
 const morgan = require('morgan');
+const userRepo = require('./userRepository');
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 
@@ -16,8 +17,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Handle API requests.
 app.post('/api/users', function (req, res) {
   var user = req.body.user;
-
-  // console.log(' req.body',  req.body);
 
   function hasRequiredUserProps(user) {
     return missingRequiredUserProps(user).length == 0;
@@ -37,11 +36,19 @@ app.post('/api/users', function (req, res) {
     return missing;
   }
 
+  function storeUser(user) {
+    user.id = uuid();
+
+    return userRepo.addUser(user);
+
+    return user.id;
+  }
+
   if (hasRequiredUserProps(user)) {
-    var uid = app.addUser(user);
+    var userId = storeUser(user);
 
     return res.status(201)
-              .json({id: uid})
+              .json({id: userId})
               .end();
   } else {
     return res.status(400)
