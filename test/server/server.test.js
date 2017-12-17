@@ -4,6 +4,8 @@ const app = require('../../server/server.js').app;
 const expect = require('chai').expect;  
 const userRepository = require('../../server/userRepository');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const config = require('../../config');
 
 describe('Users API Routes', function() {  
   
@@ -143,6 +145,8 @@ describe('Users API Routes', function() {
         .send(validLogin)
         .expect(200, function(err, res) {
           expect(res.body).to.have.property('token');
+          var decoded = jwt.verify(res.body.token, config.secret);
+          expect(userId).to.equal(decoded.id);
           done(err);
         });
     });
@@ -180,7 +184,7 @@ describe('Users API Routes', function() {
 
   describe('GET /api/users/:id', function() {
     var userId = "";
-
+    var token = "";
     var user = { 
       username: 'mike', 
       password: 'pwd', 
@@ -191,33 +195,67 @@ describe('Users API Routes', function() {
 
     beforeEach(function() {
       userId = userRepository.addUser(user);
+      request(app)
+        .post('/api/login')
+        .send({
+          username: user.username,
+          password: user.password
+        })
+        .end(function(err, res) {
+          token = res.body.token;
+        });
     });
 
     afterEach(function() {
       userRepository.removeUserById(userId);
     });
 
-    it('user with wrong id is not found or does not exist', function(done) {
-      var invalidUserId = "xxx";
-      request(app)
-        .get('/api/users/' + invalidUserId)
-        .expect(404, function(err, res) {
-          expect(res.body.message).to.equal('No user found');
-          done(err);
-        });
+    describe('Bad Token', function() {
+      it('should return an error if no token is present', function(done) {
+        request(app)
+          .get('/api/users/' + userId)
+          .expect(401, function(err, res) {
+            expect(res.body.message).to.equal('No token provided');
+            done(err);
+          });
+      });
+  
+      it('should return an error if the failed to authenticate token', function(done) {
+        request(app)
+          .get('/api/users/' + userId)
+          .set('x-access-token', 'someRandomToken')
+          .expect(500, function(err, res) {
+            expect(res.body.message).to.equal('Failed to authenticate token');
+            done(err);
+          });
+      });
     });
 
-    it('should return user details using the id', function(done) {
-      request(app)
-        .get('/api/users/' + userId)
-        .expect(200, function(err, res) {
-          expect(res.body.username).to.equal(user.username);
-          expect(res.body.fname).to.equal(user.fname);
-          expect(bcrypt.compareSync(user.password, res.body.password)).to.be.true;
-          expect(res.body.lname).to.equal(user.lname);
-          expect(res.body.email).to.equal(user.email);
-          done(err);
-        });
+    describe('Verified Token', function() {
+      it('user with wrong id is not found or does not exist', function(done) {
+        var invalidUserId = "xxx";
+        request(app)
+          .get('/api/users/' + invalidUserId)
+          .set('x-access-token', token)
+          .expect(404, function(err, res) {
+            expect(res.body.message).to.equal('No user found');
+            done(err);
+          });
+      });
+
+      it('should return user details using the id', function(done) {
+        request(app)
+          .get('/api/users/' + userId)
+          .set('x-access-token', token)
+          .expect(200, function(err, res) {
+            expect(res.body.username).to.equal(user.username);
+            expect(res.body.fname).to.equal(user.fname);
+            expect(bcrypt.compareSync(user.password, res.body.password)).to.be.true;
+            expect(res.body.lname).to.equal(user.lname);
+            expect(res.body.email).to.equal(user.email);
+            done(err);
+          });
+      });
     });
 
   });

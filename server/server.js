@@ -64,9 +64,7 @@ app.post('/api/users', function (req, res) {
 
 app.post('/api/login', function (req, res) {
   function signToken(userId) {
-    var token = jwt.sign({ id: userId }, config.secret, {
-      expiresIn: '1h'
-    });
+    return jwt.sign({ id: userId }, config.secret, { expiresIn: '1h'});
   }
 
   var user = userRepo.findUserWithLogin({
@@ -86,8 +84,18 @@ app.post('/api/logout', function (req, res) {
 });
 
 app.get('/api/users/:id', function (req, res) {
-  var user = userRepo.findUserById(req.params.id);
+  var token = req.headers['x-access-token'];
+  if (!token) 
+    return res.status(401).send({ message: 'No token provided' });
 
+  // invalid token - synchronous
+  try {
+    var decoded = jwt.verify(token, config.secret);
+  } catch(err) {
+    return res.status(500).send({ message: 'Failed to authenticate token' });
+  }
+
+  var user = userRepo.findUserById(req.params.id);
   if (user) {
     return res.status(200).json(user).end();  
   }
