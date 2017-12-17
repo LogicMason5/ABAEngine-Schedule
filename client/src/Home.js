@@ -115,7 +115,7 @@ class Home extends Component {
 
 function UserList(props) {
   const listItems = props.users.map((user) =>
-    <li>Username: {user.username}, Name: {user.fname} {user.lname}</li>
+    <li key={user.id}>Username: {user.username}, Name: {user.fname} {user.lname}</li>
   );
   return (
     <div>
