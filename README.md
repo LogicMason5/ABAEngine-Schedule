@@ -8,3 +8,21 @@ Sign in the user (via username and pass). The response should return a session t
 Fetch user data, i.e. GET /user/123 (authorize by token)
 Delete the user's session. The response should be 200 and the token should no longer be honored
 The UI should make it possible to do the API functionality mentioned above. Also we should be able to see a list of users as well as an individual user record. 
+
+Steps to run.
+
+1) git clone https://github.com/gilosmichaelcodev/MERN-Exam.git
+2) cd MERN-Exam
+3) npm install
+
+//we need to configure the react client
+4) cd client
+5) npm install
+6) npm run build -> this will build the files that will be served by the server
+
+7) cd back to MERN-Exam
+8) npm start
+
+
+Running Test
+npm test -> inside MERN-Exam folder
