@@ -73,7 +73,12 @@ app.post('/api/login', function (req, res) {
   });
   
   if (user) {
-    return res.status(200).json({token: signToken(user.id)}).end();  
+    return res.status(200)
+              .json({
+                userId: user.id, 
+                token: signToken(user.id)
+              })
+              .end();  
   }
     
   return res.status(401).json({error: 'Invalid username or password'}).end();
