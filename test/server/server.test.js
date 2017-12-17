@@ -7,11 +7,23 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('../../config');
 
+const userObj = { 
+  username: 'mike', 
+  password: 'pwd', 
+  fname: 'Michael', 
+  lname: 'G', 
+  email: 'pong@test.com'
+}
+
 describe('Users API Routes', function() {  
   
-  before(function() {
+  beforeEach(function() {
     userRepository.clear();
   });
+
+  after(function() {
+    userRepository.clear();
+  })
 
   describe('POST /api/users', function() {
 
@@ -55,48 +67,27 @@ describe('Users API Routes', function() {
     });
 
     it('returns the id of the created user', function(done) {
-      var param = {
-        user: { 
-          username: 'mike', 
-          password: 'pwd', 
-          fname: 'Michael', 
-          lname: 'G', 
-          email: 'pong@test.com'
-        }
-      }
+      var param = { user: userObj };
 
       request(app)
         .post('/api/users')
         .send(param)
         .expect(201, function(err, res) {
           expect(res.body).to.have.property('id');
-          userRepository.removeUserById(res.body.id);
           done(err);
         });
     });
 
     describe('Invalid operation', function() {
       var userId = "";
-
-      var param = {
-        user : { 
-          username: 'mike', 
-          password: 'pwd', 
-          fname: 'Michael', 
-          lname: 'G', 
-          email: 'pong@test.com'
-        }
-      }
   
       beforeEach(function() {
-        userId = userRepository.addUser(param.user);
-      });
-  
-      afterEach(function() {
-        userRepository.removeUserById(userId);
+        userId = userRepository.addUser(userObj);
       });
 
       it('should return an error if username already exist', function(done) {
+        var param = { user: userObj };
+
         request(app)
           .post('/api/users')
           .send(param)
@@ -107,7 +98,10 @@ describe('Users API Routes', function() {
       });
 
       it('should return an error if email already exist', function(done) {
-        param.user.username = 'newUsername';
+        var newUser = Object.assign({}, userObj);
+        newUser.username = 'newUsername';
+
+        var param = { user: newUser };
 
         request(app)
           .post('/api/users')
@@ -122,26 +116,15 @@ describe('Users API Routes', function() {
   });
 
   describe('POST /api/login', function() {
-    var user = { 
-      username: 'mike', 
-      password: 'pwd', 
-      fname: 'Michael', 
-      lname: 'G', 
-      email: 'pong@test.com'
-    }
 
     beforeEach(function() {
-      userId = userRepository.addUser(user);
-    });
-
-    afterEach(function() {
-      userRepository.removeUserById(userId);
+      userId = userRepository.addUser(userObj);
     });
 
     it('should return a session token for valid user', function(done) {
       var validLogin = {
-        username: user.username, 
-        password: user.password
+        username: userObj.username, 
+        password: userObj.password
       };
 
       request(app)
@@ -174,7 +157,7 @@ describe('Users API Routes', function() {
 
     it('should return error if using wrong password', function(done) {
       var invalid = { 
-        username: user.username, 
+        username: userObj.username, 
         password: 'xxx'
       };
 
@@ -188,33 +171,25 @@ describe('Users API Routes', function() {
     });
   });
 
+  xdescribe('GET /api/users', function() {
+  });
+
   describe('GET /api/users/:id', function() {
     var userId = "";
     var token = "";
-    var user = { 
-      username: 'mike', 
-      password: 'pwd', 
-      fname: 'Michael', 
-      lname: 'G', 
-      email: 'pong@test.com'
-    }
 
     beforeEach(function() {
-      userId = userRepository.addUser(user);
+      userId = userRepository.addUser(userObj);
 
       request(app)
         .post('/api/login')
         .send({
-          username: user.username,
-          password: user.password
+          username: userObj.username,
+          password: userObj.password
         })
         .end(function(err, res) {
           token = res.body.token;
         });
-    });
-
-    afterEach(function() {
-      userRepository.removeUserById(userId);
     });
 
     describe('Bad Token', function() {
@@ -255,11 +230,11 @@ describe('Users API Routes', function() {
           .get('/api/users/' + userId)
           .set('x-access-token', token)
           .expect(200, function(err, res) {
-            expect(res.body.username).to.equal(user.username);
-            expect(res.body.fname).to.equal(user.fname);
-            expect(bcrypt.compareSync(user.password, res.body.password)).to.be.true;
-            expect(res.body.lname).to.equal(user.lname);
-            expect(res.body.email).to.equal(user.email);
+            expect(res.body.username).to.equal(userObj.username);
+            expect(res.body.fname).to.equal(userObj.fname);
+            expect(bcrypt.compareSync(userObj.password, res.body.password)).to.be.true;
+            expect(res.body.lname).to.equal(userObj.lname);
+            expect(res.body.email).to.equal(userObj.email);
             done(err);
           });
       });
