@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 class Login extends Component {
+
   constructor(props) {
     super(props);
+
     this.state = {
       username: '',
       password: ''
@@ -33,12 +35,15 @@ class Login extends Component {
           headers: { "Content-Type": "application/json" }
         })
         .then((resp) => resp.json())
-        .then((values) => {
-          if (values.error) {
-            alert(values.error);
+        .then((data) => {
+          if (data.error) {
+            alert(data.error);
           }
           
-          console.log(values);
+          sessionStorage.setItem('token', data.token);
+          console.log(data);
+
+          this.props.history.push('/');
         });
 
     event.preventDefault();

@@ -18,7 +18,33 @@ class Home extends Component {
   handleLogout(event) {}
 
   componentDidMount() {
-    this.props.history.push('/login');
+    if (!sessionStorage.getItem('token'))
+      this.props.history.push('/login');
+    else
+      this.showUserDetails();
+  }
+
+  showUserDetails() {
+    const userId = sessionStorage.getItem('userId');
+    const token = sessionStorage.getItem('token');
+
+    fetch('/api/users/' + userId, {
+          method: 'GET',
+          headers: { 
+            'Content-Type': 'application/json',
+            'x-access-token': token
+          }
+        })
+        .then((resp) => resp.json())
+        .then((data) => {
+          if (data.message) {
+            alert(data.message);
+          }
+          
+          // sessionStorage.setItem('token', data.token);
+          console.log(data);
+        });
+
   }
 
   render() {
