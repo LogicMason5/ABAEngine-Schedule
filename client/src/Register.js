@@ -70,38 +70,44 @@ class Register extends Component {
     const isDisabled = this.allFieldsHaveBeenFilled();
     return (
         <form onSubmit={this.handleSubmit}>
-            <label>
-                Username:
-                <input type="text" className={this.setFieldState(this.state.username)} name="username" onChange={this.onChange} />
-            </label>
+          <input type="text" 
+                 className={this.setFieldState(this.state.username)} 
+                 name="username" 
+                 onChange={this.onChange} 
+                 placeholder="username"/>
 
             <br></br>
             
-            <label>
-                Password:
-                <input type="password" className={this.setFieldState(this.state.password)} name="password" onChange={this.onChange} />
-            </label>
+            <input type="password" 
+                   className={this.setFieldState(this.state.password)} 
+                   name="password" 
+                   onChange={this.onChange} 
+                   placeholder="password"/>
+
 
             <br></br>
 
-            <label>
-                First Name:
-                <input type="text" className={this.setFieldState(this.state.fname)} name="fname" onChange={this.onChange} />
-            </label>
+            <input type="text" 
+                   className={this.setFieldState(this.state.fname)} 
+                   name="fname" 
+                   onChange={this.onChange} 
+                   placeholder="first name"/>
 
             <br></br>
 
-            <label>
-                Last Name:
-                <input type="text" className={this.setFieldState(this.state.lname)} name="lname" onChange={this.onChange} />
-            </label>
+            <input type="text" 
+                   className={this.setFieldState(this.state.lname)} 
+                   name="lname" 
+                   onChange={this.onChange} 
+                   placeholder="last name"/>
 
             <br></br>
 
-            <label>
-                Email:
-                <input type="text" className={this.setFieldState(this.state.email)} name="email" onChange={this.onChange} />
-            </label>
+            <input type="text" 
+                   className={this.setFieldState(this.state.email)} 
+                   name="email" 
+                   onChange={this.onChange} 
+                   placeholder="email"/>
 
             <br></br>
             

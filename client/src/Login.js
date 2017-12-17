@@ -70,17 +70,17 @@ class Login extends Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <label>
-            Username:
-            <input type="text" className={this.setFieldState(this.state.username)} name="username" onChange={this.handleChange}/>
-          </label>
+            <input type="text" 
+                   className={this.setFieldState(this.state.username)} 
+                   name="username" onChange={this.handleChange} 
+                   placeholder="username"/>
 
           <br></br>
 
-          <label>
-            Password:
-            <input type="password" className={this.setFieldState(this.state.password)} name="password" onChange={this.handleChange}/>
-          </label>
+            <input type="password" 
+                   className={this.setFieldState(this.state.password)} 
+                   name="password" onChange={this.handleChange} 
+                   placeholder="password"/>
 
           <br></br>
 
