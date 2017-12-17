@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class UserForm extends Component {
+class Register extends Component {
     constructor() {
         super();
 
@@ -51,26 +51,41 @@ class UserForm extends Component {
                     Username:
                     <input type="text" name="username" onChange={this.onChange} />
                 </label>
+
+                <br></br>
+                
                 <label>
                     Password:
                     <input type="text" name="username" onChange={this.onChange} />
                 </label>
+
+                <br></br>
+
                 <label>
                     First Name:
                     <input type="text" name="fname" onChange={this.onChange} />
                 </label>
+
+                <br></br>
+
                 <label>
                     Last Name:
                     <input type="text" name="lname" onChange={this.onChange} />
                 </label>
+
+                <br></br>
+
                 <label>
                     Email:
                     <input type="text" name="email" onChange={this.onChange} />
                 </label>
+
+                <br></br>
+                
                 <input type="submit" value="Create" />
             </form>
         );
     }
 }
 
-export default UserForm;
+export default Register;
