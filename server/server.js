@@ -85,18 +85,3 @@ function start() {
 
 exports.start = start;
 exports.app = app;
-
-
-//test
-var userCache = [{id: '101', username: 'test account'}];
-
-app.addUser = function(user) {
-  user.id = uuid();
-  userCache.push(user);
-
-  return user.id;
-}
-
-app.clearUsers = function() {
-  userCache = [];
-}
