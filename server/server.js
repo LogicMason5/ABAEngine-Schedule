@@ -5,6 +5,8 @@ const uuid = require('uuid');
 const app = express();
 const morgan = require('morgan');
 const userRepo = require('./userRepository');
+const jwt = require('jsonwebtoken');
+const config = require('../config');
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 
@@ -61,15 +63,22 @@ app.post('/api/users', function (req, res) {
 });
 
 app.post('/api/login', function (req, res) {
+  function signToken(userId) {
+    var token = jwt.sign({ id: userId }, config.secret, {
+      expiresIn: '1h'
+    });
+  }
+
   var user = userRepo.findUserWithLogin({
     username: req.body.username,
     password: req.body.password
   });
   
-  if (user)
-    return res.status(200).json({token: uuid()}).end();  
-  else
-    return res.status(401).json({error: 'Invalid username or password'}).end();
+  if (user) {
+    return res.status(200).json({token: signToken(user.id)}).end();  
+  }
+    
+  return res.status(401).json({error: 'Invalid username or password'}).end();
 });
 
 app.post('/api/logout', function (req, res) {
