@@ -2,7 +2,7 @@ const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 const adapter = new FileSync('db.json')
 const db = low(adapter)
-const uuid = require('uuid')
+const shortid = require('shortid');
 
 init();
 
@@ -11,7 +11,7 @@ function init() {
 }
 
 exports.addUser = function(user) {
-  user.id = uuid();
+  user.id = shortid.generate();
 
   db.get('users')
     .push(user)
