@@ -61,7 +61,7 @@ class Register extends Component {
             
             <label>
                 Password:
-                <input type="text" name="password" onChange={this.onChange} />
+                <input type="password" name="password" onChange={this.onChange} />
             </label>
 
             <br></br>
