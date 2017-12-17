@@ -64,5 +64,25 @@ function login(req, res) {
   return res.status(401).json({error: 'Invalid username or password'}).end();
 }
 
+function logout(req, res) {
+  return res.status(200).end(); 
+}
+
+function getUsers(req, res) {
+  return res.status(200).json(userRepo.allUsers()).end();  
+}
+
+function getUser(req, res) {
+  var user = userRepo.findUserById(req.params.id);
+  if (user) {
+    return res.status(200).json(user).end();  
+  }
+
+  return res.status(404).json({error: 'No user found'}).end();
+}
+
 module.exports.createUser = createUser;
 module.exports.login = login;
+module.exports.logout = logout;
+module.exports.getUsers = getUsers;
+module.exports.getUser = getUser;

@@ -18,25 +18,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Handle API requests.
 app.post('/api/users', apiHandler.createUser);
-
 app.post('/api/login', apiHandler.login);
+app.post('/api/logout', apiHandler.logout);
 
-app.post('/api/logout', function (req, res) {
-  return res.status(200).end(); 
-});
-
-app.get('/api/users', authZToken.verifyToken, function (req, res) {
-  return res.status(200).json(userRepo.allUsers()).end();  
-});
-
-app.get('/api/users/:id', authZToken.verifyToken, function (req, res) {
-  var user = userRepo.findUserById(req.params.id);
-  if (user) {
-    return res.status(200).json(user).end();  
-  }
-
-  return res.status(404).json({error: 'No user found'}).end();
-});
+app.get('/api/users', authZToken.verifyToken, apiHandler.getUsers);
+app.get('/api/users/:id', authZToken.verifyToken, apiHandler.getUser);
 
 // All remaining requests return the React app, so it can handle routing.
 app.get('*', function(request, response) {
