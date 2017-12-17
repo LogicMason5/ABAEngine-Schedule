@@ -6,6 +6,7 @@ const app = express();
 const morgan = require('morgan');
 const userRepo = require('./userRepository');
 const authZToken = require('./AuthZToken');
+const apiHandler = require('./ApiHandler');
 
 app.use(morgan(':method :url :status'));
 
@@ -16,68 +17,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Handle API requests.
-app.post('/api/users', function (req, res) {
-  var user = req.body.user;
+app.post('/api/users', apiHandler.createUser);
 
-  function hasRequiredUserProps(user) {
-    return missingRequiredUserProps(user).length == 0;
-  }
-
-  function missingRequiredUserProps(user) {
-    var requiredProps = ['username', 'password', 'fname', 'lname', 'email']; 
-    var missing = [];
-
-    if (!user) return ['user object {user}'];
-
-    requiredProps.forEach(function(prop) {
-      if (!user.hasOwnProperty(prop)) 
-        missing.push(prop);
-    });
-
-    return missing;
-  }
-
-  
-  if (hasRequiredUserProps(user)) {
-    if (userRepo.propertyExist({username: user.username}))
-      return res.status(401)
-                .json({error: "Username is already taken"})
-                .end();
-
-    if (userRepo.propertyExist({email: user.email}))
-      return res.status(401)
-                .json({error: "Email is already taken"})
-                .end();
-
-    var userId =  userRepo.addUser(user);
-
-    return res.status(201)
-              .json({id: userId})
-              .end();
-  } else {
-    return res.status(400)
-              .send({'required': missingRequiredUserProps(user)})
-              .end();
-  }
-});
-
-app.post('/api/login', function (req, res) {
-  var user = userRepo.findUserWithLogin({
-    username: req.body.username,
-    password: req.body.password
-  });
-  
-  if (user) {
-    return res.status(200)
-              .json({
-                userId: user.id, 
-                token: authZToken.signToken({id: user.id})
-              })
-              .end();  
-  }
-    
-  return res.status(401).json({error: 'Invalid username or password'}).end();
-});
+app.post('/api/login', apiHandler.login);
 
 app.post('/api/logout', function (req, res) {
   return res.status(200).end(); 
