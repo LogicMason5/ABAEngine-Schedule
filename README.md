@@ -18,11 +18,14 @@ The UI should make it possible to do the API functionality mentioned above. Also
 ## Installation
 
 `cd MERN-Exam`
+
 `npm install`
 
 We need to configure the react client
 `cd client`
+
 `npm install`
+
 `npm run build` -> this will build the files the server will serve
 
 ## Running
