@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Error.css';
 
 class Register extends Component {
   constructor() {
@@ -49,45 +50,62 @@ class Register extends Component {
         });
   }
 
+  validate(field) {
+    return field.length === 0;
+  }
+
+  setFieldState(prop) {
+    return this.validate(prop) ? "error" : "";
+  }
+
+  allFieldsHaveBeenFilled() {
+    return this.validate(this.state.username)
+              || this.validate(this.state.password)
+              || this.validate(this.state.fname) 
+              || this.validate(this.state.lname) 
+              || this.validate(this.state.email); 
+  }
+
   render() {
+    const isDisabled = this.allFieldsHaveBeenFilled();
     return (
         <form onSubmit={this.handleSubmit}>
             <label>
                 Username:
-                <input type="text" name="username" onChange={this.onChange} />
+                <input type="text" className={this.setFieldState(this.state.username)} name="username" onChange={this.onChange} />
             </label>
 
             <br></br>
             
             <label>
                 Password:
-                <input type="password" name="password" onChange={this.onChange} />
+                <input type="password" className={this.setFieldState(this.state.password)} name="password" onChange={this.onChange} />
             </label>
 
             <br></br>
 
             <label>
                 First Name:
-                <input type="text" name="fname" onChange={this.onChange} />
+                <input type="text" className={this.setFieldState(this.state.fname)} name="fname" onChange={this.onChange} />
             </label>
 
             <br></br>
 
             <label>
                 Last Name:
-                <input type="text" name="lname" onChange={this.onChange} />
+                <input type="text" className={this.setFieldState(this.state.lname)} name="lname" onChange={this.onChange} />
             </label>
 
             <br></br>
 
             <label>
                 Email:
-                <input type="text" name="email" onChange={this.onChange} />
+                <input type="text" className={this.setFieldState(this.state.email)} name="email" onChange={this.onChange} />
             </label>
 
             <br></br>
             
-            <input type="submit" value="Create" />
+            <input type="submit" value="Create" disabled={isDisabled} />
         </form>
     );
   }

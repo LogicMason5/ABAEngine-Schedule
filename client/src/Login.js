@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import './Error.css';
 
 class Login extends Component {
 
@@ -51,25 +52,39 @@ class Login extends Component {
     event.preventDefault();
   }
 
+  validate(field) {
+    return field.length === 0;
+  }
+
+  setFieldState(prop) {
+    return this.validate(prop) ? "error" : "";
+  }
+
+  allFieldsHaveBeenFilled() {
+    return this.validate(this.state.username)
+              || this.validate(this.state.password); 
+  }
+
   render() {
+    const isDisabled = this.allFieldsHaveBeenFilled();
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
           <label>
             Username:
-            <input type="text" name="username" onChange={this.handleChange}/>
+            <input type="text" className={this.setFieldState(this.state.username)} name="username" onChange={this.handleChange}/>
           </label>
 
           <br></br>
 
           <label>
             Password:
-            <input type="password" name="password" onChange={this.handleChange}/>
+            <input type="password" className={this.setFieldState(this.state.password)} name="password" onChange={this.handleChange}/>
           </label>
 
           <br></br>
 
-          <input type="submit" value="Login" />
+          <input type="submit" value="Login" disabled={isDisabled}/>
         </form>
         <Link to={{ pathname: '/register' }}>Register</Link>
       </div>
