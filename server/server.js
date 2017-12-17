@@ -36,16 +36,8 @@ app.post('/api/users', function (req, res) {
     return missing;
   }
 
-  function storeUser(user) {
-    user.id = uuid();
-
-    return userRepo.addUser(user);
-
-    return user.id;
-  }
-
   if (hasRequiredUserProps(user)) {
-    var userId = storeUser(user);
+    var userId =  userRepo.addUser(user);
 
     return res.status(201)
               .json({id: userId})
