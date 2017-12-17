@@ -51,11 +51,11 @@ describe('Users API Routes', function() {
     it('returns the id of the created user', function(done) {
       var param = {
         user: { 
-        username: 'mike', 
-        password: 'pwd', 
-        fname: 'Michael', 
-        lname: 'G', 
-        email: 'pong@test.com'
+          username: 'mike', 
+          password: 'pwd', 
+          fname: 'Michael', 
+          lname: 'G', 
+          email: 'pong@test.com'
         }
       }
 
@@ -69,6 +69,50 @@ describe('Users API Routes', function() {
         });
     });
 
+    describe('Invalid operation', function() {
+      var userId = "";
+
+      var param = {
+        user : { 
+          username: 'mike', 
+          password: 'pwd', 
+          fname: 'Michael', 
+          lname: 'G', 
+          email: 'pong@test.com'
+        }
+      }
+  
+      beforeEach(function() {
+        userId = userRepository.addUser(param.user);
+      });
+  
+      afterEach(function() {
+        userRepository.removeUserById(userId);
+      });
+
+      it('should return an error if username already exist', function(done) {
+        request(app)
+          .post('/api/users')
+          .send(param)
+          .expect(401, function(err, res) {
+            expect(res.body.error).to.equal('Username is already taken');
+            done(err);
+          });
+      });
+
+      it('should return an error if email already exist', function(done) {
+        param.user.username = 'newUsername';
+
+        request(app)
+          .post('/api/users')
+          .send(param)
+          .expect(401, function(err, res) {
+            expect(res.body.error).to.equal('Email is already taken');
+            done(err);
+          });
+      });
+
+    });
   });
 
   describe('POST /api/login', function() {

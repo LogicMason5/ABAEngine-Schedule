@@ -36,7 +36,18 @@ app.post('/api/users', function (req, res) {
     return missing;
   }
 
+  
   if (hasRequiredUserProps(user)) {
+    if (userRepo.propertyExist({username: user.username}))
+      return res.status(401)
+                .json({error: "Username is already taken"})
+                .end();
+
+    if (userRepo.propertyExist({email: user.email}))
+      return res.status(401)
+                .json({error: "Email is already taken"})
+                .end();
+
     var userId =  userRepo.addUser(user);
 
     return res.status(201)

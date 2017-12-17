@@ -51,3 +51,9 @@ exports.removeUserById = function(userId) {
     .remove({ id: userId })
     .write()
 }
+
+exports.propertyExist = function(prop) {
+  return db.get('users')
+           .find(prop)
+           .value() 
+}
