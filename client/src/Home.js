@@ -1,48 +1,52 @@
 import React, { Component } from 'react';
 
 class Home extends Component {
-    constructor() {
-        super();
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            username: '',
-            password: '',
-            fname: '',
-            lname: '',
-            email: ''
-        };
+    this.state = {
+      username: '',
+      password: '',
+      fname: '',
+      lname: '',
+      email: ''
+    };
 
-        this.handleLogout = this.handleLogout.bind(this);
-    }
+    this.handleLogout = this.handleLogout.bind(this);
+  }
 
-    handleLogout(event) {}
+  handleLogout(event) {}
 
-    render() {
-        const { username, fname, lname, email } = this.state;
-        return (
-            <div>
-                <label> Username: {username} </label>
+  componentDidMount() {
+    this.props.history.push('/login');
+  }
 
-                <br></br>
-                
-                <label> First Name: {fname} </label>
+  render() {
+    const { username, fname, lname, email } = this.state;
+      return (
+        <div>
+          <label> Username: {username} </label>
 
-                <br></br>
+          <br></br>
+        
+          <label> First Name: {fname} </label>
 
-                <label> Last Name: {lname} </label>
+          <br></br>
 
-                <br></br>
+          <label> Last Name: {lname} </label>
 
-                <label> Email: {email} </label>
+          <br></br>
 
-                <br></br>
+          <label> Email: {email} </label>
 
-                <button onClick={this.handleLogout}>
-                    Logout
-                </button>
-              </div>
-        );
-    }
+          <br></br>
+
+          <button onClick={this.handleLogout}>
+            Logout
+          </button>
+        </div>
+    );  
+  }
 }
 
 export default Home;
