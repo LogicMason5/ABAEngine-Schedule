@@ -59,5 +59,5 @@ exports.propertyExist = function(prop) {
 }
 
 exports.clear = function() {
-  init();
+  db.setState({ users: [] }).write();
 }
