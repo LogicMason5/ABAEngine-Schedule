@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
   constructor(props) {
@@ -10,11 +11,6 @@ class Login extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleRegister = this.handleRegister.bind(this);
-  }
-
-  handleRegister(event) {
-    
   }
 
   handleChange(event) {
@@ -48,9 +44,6 @@ class Login extends Component {
     event.preventDefault();
   }
 
-  componentDidMount() {
-  }
-
   render() {
     return (
       <div>
@@ -70,8 +63,8 @@ class Login extends Component {
           <br></br>
 
           <input type="submit" value="Login" />
-          <input type="submit" value="Register" />
         </form>
+        <Link to={{ pathname: '/register' }}>Register</Link>
       </div>
     );
   }
