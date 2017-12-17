@@ -1,10 +1,8 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const uuid = require('uuid');  
 const app = express();
 const morgan = require('morgan');
-const userRepo = require('./userRepository');
 const authZToken = require('./AuthZToken');
 const apiHandler = require('./ApiHandler');
 

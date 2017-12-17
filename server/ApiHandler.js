@@ -1,4 +1,4 @@
-const userRepo = require('./userRepository');
+const userRepo = require('./UserRepository');
 const authZToken = require('./AuthZToken');
 
 function createUser(req, res) {
