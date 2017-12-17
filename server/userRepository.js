@@ -2,7 +2,11 @@ const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 const adapter = new FileSync('db.json')
 const db = low(adapter)
+
 const shortid = require('shortid');
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 init();
 
@@ -10,8 +14,13 @@ function init() {
   db.defaults({ users: [] }).write();
 }
 
+function encrypPassword(password) {
+  return bcrypt.hashSync(password, saltRounds);
+}
+
 exports.addUser = function(user) {
   user.id = shortid.generate();
+  user.password = encrypPassword(user.password);
 
   db.get('users')
     .push(user)

@@ -68,7 +68,7 @@ app.get('/api/users/:id', function (req, res) {
     return res.status(200).json(user).end();  
   }
 
-  return res.status(404).end();
+  return res.status(404).json({message: 'No user found'}).end();
 });
 
 // All remaining requests return the React app, so it can handle routing.

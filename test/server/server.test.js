@@ -137,10 +137,14 @@ describe('Users API Routes', function() {
       userRepository.removeUserById(userId);
     });
 
-    it('should exist', function(done) {
+    it('user with wrong id is not found or does not exist', function(done) {
+      var invalidUserId = "xxx";
       request(app)
-        .get('/api/users/' + userId)
-        .expect(200, done);
+        .get('/api/users/' + invalidUserId)
+        .expect(404, function(err, res) {
+          expect(res.body.message).to.equal('No user found');
+          done(err);
+        });
     });
 
     it('should return user details using the id', function(done) {
