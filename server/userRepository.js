@@ -58,6 +58,10 @@ exports.propertyExist = function(prop) {
            .value() 
 }
 
+exports.allUsers = function() {
+  return db.get('users').value();
+}
+
 exports.clear = function() {
   db.setState({ users: [] }).write();
 }

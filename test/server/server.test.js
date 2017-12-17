@@ -79,10 +79,9 @@ describe('Users API Routes', function() {
     });
 
     describe('Invalid operation', function() {
-      var userId = "";
-  
+      
       beforeEach(function() {
-        userId = userRepository.addUser(userObj);
+        userRepository.addUser(userObj);
       });
 
       it('should return an error if username already exist', function(done) {
@@ -116,6 +115,8 @@ describe('Users API Routes', function() {
   });
 
   describe('POST /api/login', function() {
+
+    var userId = "";
 
     beforeEach(function() {
       userId = userRepository.addUser(userObj);
@@ -171,14 +172,58 @@ describe('Users API Routes', function() {
     });
   });
 
-  xdescribe('GET /api/users', function() {
+  describe('GET /api/users', function() {
+    const user1 = { 
+      username: 'user1', 
+      password: 'pwd', 
+      fname: 'User', 
+      lname: '1', 
+      email: 'user1@test.com'
+    }
+
+    const user2 = { 
+      username: 'user2', 
+      password: 'pwd', 
+      fname: 'User', 
+      lname: '2', 
+      email: 'user2@test.com'
+    }
+    var token = "";
+    var users = [userObj, user1, user2];
+
+    beforeEach(function(done) {
+      users.forEach(function(user) {
+        userRepository.addUser(user);
+      });
+
+      request(app)
+        .post('/api/login')
+        .send({
+          username: userObj.username,
+          password: userObj.password
+        })
+        .end(function(err, res) {
+          token = res.body.token;
+          done(err);
+        });
+    });
+
+    it('should return the list of users', function(done) {
+      request(app)
+        .get('/api/users')
+        .set('x-access-token', token)
+        .expect(200, function(err, res) {
+          expect(res.body).to.have.lengthOf(users.length);
+          done(err);
+        });
+    });
   });
 
   describe('GET /api/users/:id', function() {
     var userId = "";
     var token = "";
 
-    beforeEach(function() {
+    beforeEach(function(done) {
       userId = userRepository.addUser(userObj);
 
       request(app)
@@ -189,6 +234,7 @@ describe('Users API Routes', function() {
         })
         .end(function(err, res) {
           token = res.body.token;
+          done(err);
         });
     });
 

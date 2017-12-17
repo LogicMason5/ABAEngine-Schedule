@@ -8,7 +8,7 @@ const userRepo = require('./userRepository');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
+app.use(morgan(':method :url :status'));
 
 // Priority serve any static files.
 app.use(express.static(path.resolve(__dirname, '../client/build')));
@@ -86,6 +86,21 @@ app.post('/api/login', function (req, res) {
 
 app.post('/api/logout', function (req, res) {
   return res.status(200).end(); 
+});
+
+app.get('/api/users', function (req, res) {
+  var token = req.headers['x-access-token'];
+  if (!token) 
+    return res.status(401).send({ error: 'No token provided' });
+
+  // invalid token - synchronous
+  try {
+    var decoded = jwt.verify(token, config.secret);
+  } catch(err) {
+    return res.status(500).send({ error: 'Failed to authenticate token' });
+  }
+
+  return res.status(200).json(userRepo.allUsers()).end();  
 });
 
 app.get('/api/users/:id', function (req, res) {
