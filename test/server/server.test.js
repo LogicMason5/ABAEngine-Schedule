@@ -103,9 +103,24 @@ describe('Users API Routes', function() {
         });
     });
 
-    it('should return error if using invalid credentials', function(done) {
+    it('should return error if using wrong username', function(done) {
       var invalid = { 
         username: 'xxx', 
+        password: 'xxx'
+      };
+
+      request(app)
+        .post('/api/login')
+        .send(invalid)
+        .expect(401, function(err, res) {
+          expect(res.body.error).to.equal('Invalid username or password');
+          done(err);
+        });
+    });
+
+    it('should return error if using wrong password', function(done) {
+      var invalid = { 
+        username: user.username, 
         password: 'xxx'
       };
 
