@@ -36,14 +36,15 @@ class Login extends Component {
         })
         .then((resp) => resp.json())
         .then((data) => {
-          if (data.error) {
-            alert(data.error);
-          }
-          
-          sessionStorage.setItem('token', data.token);
           console.log(data);
 
-          this.props.history.push('/');
+          if (data.error) {
+            alert(data.error);
+          } else {
+            sessionStorage.setItem('token', data.token);
+            sessionStorage.setItem('userId', data.userId);
+            this.props.history.push('/');
+          }
         });
 
     event.preventDefault();
