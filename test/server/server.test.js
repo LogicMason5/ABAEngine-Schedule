@@ -1,7 +1,7 @@
 const request = require('supertest');
 const server = require('../../server/server.js');
 const app = require('../../server/server.js').app;
-const expect = require('chai').expect;    // Using Expect style
+const expect = require('chai').expect;  
 const userRepository = require('../../server/userRepository');
 
 describe('Users API Routes', function() {  
@@ -70,7 +70,7 @@ describe('Users API Routes', function() {
 
   });
 
-  xdescribe('POST /api/login', function() {
+  describe('POST /api/login', function() {
     var user = { 
       username: 'mike', 
       password: 'pwd', 
@@ -80,11 +80,11 @@ describe('Users API Routes', function() {
     }
 
     beforeEach(function() {
-      userId = app.addUser(user);
+      userId = userRepository.addUser(user);
     });
 
     afterEach(function() {
-      app.clearUsers();
+      userRepository.removeUserById(userId);
     });
 
     it('should return a session token for valid user', function(done) {

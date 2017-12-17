@@ -50,16 +50,15 @@ app.post('/api/users', function (req, res) {
 });
 
 app.post('/api/login', function (req, res) {
-  var uname = req.body.username;
-  var pwd = req.body.password;
-
-  for (var i = 0; i < userCache.length; i++) {
-    var user = userCache[i];
-    if (user.username === uname && user.password === pwd)
-      return res.status(200).send({token: uuid()}).end();  
-  }
-
-  return res.status(401).json({error: 'Invalid username or password'}).end();
+  var user = userRepo.findUser({
+    username: req.body.username,
+    password: req.body.password
+  });
+  
+  if (user)
+    return res.status(200).json({token: uuid()}).end();  
+  else
+    return res.status(401).json({error: 'Invalid username or password'}).end();
 });
 
 app.get('/api/users/:id', function (req, res) {

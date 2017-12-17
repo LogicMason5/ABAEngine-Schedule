@@ -20,6 +20,12 @@ exports.addUser = function(user) {
   return user.id;
 }
 
+exports.findUser = function(prop) {
+  return db.get('users')
+           .find(prop)
+           .value();
+}
+
 exports.findUserById = function(userId) {
   return db.get('users')
            .find({ id: userId })
