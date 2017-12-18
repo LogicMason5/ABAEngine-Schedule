@@ -69,29 +69,33 @@ class Login extends Component {
   render() {
     const isDisabled = this.allFieldsHaveBeenFilled();
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Username:</label>
-          <input type="text" 
-                 className={this.setFieldState(this.state.username)}
-                 name="username" 
-                   onChange={this.handleChange} 
-                   id="username"
-                   placeholder="username"/>
-        </div>
+      <div className="container">
+        <form className="form-horizontal" onSubmit={this.handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="username" className="control-label col-sm-2">Username:</label>
+            <div className="col-sm-10">
+              <input type="text" 
+                    className="form-control"
+                    name="username" 
+                    id="username"
+                    onChange={this.handleChange} 
+                    placeholder="Enter username"/>
+            </div>
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input type="password" 
-                   className={this.setFieldState(this.state.password)}
-                   name="password" 
-                   onChange={this.handleChange} 
-                   id="password"
-                   placeholder="password"/>
-        </div>
+          <div className="form-group">
+            <label htmlFor="password" className="control-label col-sm-2">Password:</label>
+            <div className="col-sm-10">
+              <input type="password" 
+                      className="form-control"
+                      name="password" 
+                      id="password"
+                      onChange={this.handleChange} 
+                      placeholder="Enter password"/>
+            </div>
+          </div>
 
-        <input type="submit" value="Login" disabled={isDisabled} className="btn btn-default"/>
+          <input type="submit" value="Login" disabled={isDisabled} className="btn btn-default"/>
 
         </form>
         <Link to={{ pathname: '/register' }}>Register</Link>
