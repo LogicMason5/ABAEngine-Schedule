@@ -57,7 +57,8 @@ class Login extends Component {
   }
 
   setFieldState(prop) {
-    return this.validate(prop) ? "error" : "";
+    const error = this.validate(prop) ? "error" : "";
+    return `${error} form-control`;
   }
 
   allFieldsHaveBeenFilled() {
@@ -66,8 +67,6 @@ class Login extends Component {
   }
 
   render() {
-    const error = this.setFieldState(this.state.username);
-    const inputClass = `${error} form-control`;
     const isDisabled = this.allFieldsHaveBeenFilled();
     return (
       <div>
@@ -75,7 +74,7 @@ class Login extends Component {
         <div className="form-group">
           <label htmlFor="username">Username:</label>
           <input type="text" 
-                 className={inputClass}
+                 className={this.setFieldState(this.state.username)}
                  name="username" 
                    onChange={this.handleChange} 
                    id="username"
@@ -85,7 +84,7 @@ class Login extends Component {
         <div className="form-group">
           <label htmlFor="password">Password:</label>
           <input type="password" 
-                   className={inputClass}
+                   className={this.setFieldState(this.state.password)}
                    name="password" 
                    onChange={this.handleChange} 
                    id="password"
@@ -93,7 +92,7 @@ class Login extends Component {
         </div>
 
         <input type="submit" value="Login" disabled={isDisabled} className="btn btn-default"/>
-        
+
         </form>
         <Link to={{ pathname: '/register' }}>Register</Link>
       </div>
