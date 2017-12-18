@@ -66,25 +66,34 @@ class Login extends Component {
   }
 
   render() {
+    const error = this.setFieldState(this.state.username);
+    const inputClass = `${error} form-control`;
     const isDisabled = this.allFieldsHaveBeenFilled();
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-            <input type="text" 
-                   className={this.setFieldState(this.state.username)} 
-                   name="username" onChange={this.handleChange} 
+        <div className="form-group">
+          <label htmlFor="username">Username:</label>
+          <input type="text" 
+                 className={inputClass}
+                 name="username" 
+                   onChange={this.handleChange} 
+                   id="username"
                    placeholder="username"/>
+        </div>
 
-          <br></br>
-
-            <input type="password" 
-                   className={this.setFieldState(this.state.password)} 
-                   name="password" onChange={this.handleChange} 
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
+          <input type="password" 
+                   className={inputClass}
+                   name="password" 
+                   onChange={this.handleChange} 
+                   id="password"
                    placeholder="password"/>
+        </div>
 
-          <br></br>
-
-          <input type="submit" value="Login" disabled={isDisabled}/>
+        <input type="submit" value="Login" disabled={isDisabled} className="btn btn-default"/>
+        
         </form>
         <Link to={{ pathname: '/register' }}>Register</Link>
       </div>
