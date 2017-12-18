@@ -75,7 +75,7 @@ class Login extends Component {
             <label htmlFor="username" className="control-label col-sm-2">Username:</label>
             <div className="col-sm-10">
               <input type="text" 
-                    className="form-control"
+                    className={this.setFieldState(this.state.username)} 
                     name="username" 
                     id="username"
                     onChange={this.handleChange} 
@@ -87,7 +87,7 @@ class Login extends Component {
             <label htmlFor="password" className="control-label col-sm-2">Password:</label>
             <div className="col-sm-10">
               <input type="password" 
-                      className="form-control"
+                      className={this.setFieldState(this.state.username)}
                       name="password" 
                       id="password"
                       onChange={this.handleChange} 
