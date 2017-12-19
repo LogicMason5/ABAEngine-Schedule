@@ -69,36 +69,42 @@ class Login extends Component {
   render() {
     const isDisabled = this.allFieldsHaveBeenFilled();
     return (
-      <div className="container">
-        <form className="form-horizontal" onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="username" className="control-label col-sm-2">Username:</label>
-            <div className="col-sm-10">
-              <input type="text" 
-                    className={this.setFieldState(this.state.username)} 
-                    name="username" 
-                    id="username"
-                    onChange={this.handleChange} 
-                    placeholder="Enter username"/>
-            </div>
-          </div>
+      <div>
+        <div class="jumbotron">
+          <h2>Login</h2> 
+        </div>
 
-          <div className="form-group">
-            <label htmlFor="password" className="control-label col-sm-2">Password:</label>
-            <div className="col-sm-10">
-              <input type="password" 
-                      className={this.setFieldState(this.state.username)}
-                      name="password" 
-                      id="password"
+        <div className="container">
+          <form className="form-horizontal" onSubmit={this.handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="username" className="control-label col-sm-2">Username:</label>
+              <div className="col-sm-10">
+                <input type="text" 
+                      className={this.setFieldState(this.state.username)} 
+                      name="username" 
+                      id="username"
                       onChange={this.handleChange} 
-                      placeholder="Enter password"/>
+                      placeholder="Enter username"/>
+              </div>
             </div>
-          </div>
 
-          <input type="submit" value="Login" disabled={isDisabled} className="btn btn-default"/>
+            <div className="form-group">
+              <label htmlFor="password" className="control-label col-sm-2">Password:</label>
+              <div className="col-sm-10">
+                <input type="password" 
+                        className={this.setFieldState(this.state.username)}
+                        name="password" 
+                        id="password"
+                        onChange={this.handleChange} 
+                        placeholder="Enter password"/>
+              </div>
+            </div>
 
-        </form>
-        <Link to={{ pathname: '/register' }}>Register</Link>
+            <input type="submit" value="Login" disabled={isDisabled} className="btn btn-default"/>
+
+          </form>
+          <Link to={{ pathname: '/register' }}>Register</Link>
+        </div>
       </div>
     );
   }
