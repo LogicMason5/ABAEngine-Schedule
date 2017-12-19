@@ -71,7 +71,7 @@ class Register extends Component {
     const isDisabled = this.allFieldsHaveBeenFilled();
     return (
       <div>
-        <div class="jumbotron">
+        <div className="jumbotron">
           <h2>Registration</h2> 
         </div>
 

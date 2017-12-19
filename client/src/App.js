@@ -7,6 +7,7 @@ import Login from './Login';
 import Register from './Register';
 import Home from './Home';
 import NotFound from './NotFound';
+import User from './User';
 
 class App extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class App extends Component {
         {/* <Header /> */}
         <Switch>
           <Route exact path='/' component={Home}/>
+          <Route path='/users/:id' component={User}/>
           <Route exact path='/login' component={Login}/>
           <Route exact path='/register' component={Register}/>
           <Route path='*' component={NotFound}/>

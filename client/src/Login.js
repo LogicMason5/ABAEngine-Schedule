@@ -70,7 +70,7 @@ class Login extends Component {
     const isDisabled = this.allFieldsHaveBeenFilled();
     return (
       <div>
-        <div class="jumbotron">
+        <div className="jumbotron">
           <h2>Login</h2> 
         </div>
 
@@ -100,10 +100,12 @@ class Login extends Component {
               </div>
             </div>
 
-            <input type="submit" value="Login" disabled={isDisabled} className="btn btn-default"/>
+            <input type="submit" value="Login" disabled={isDisabled} className="btn btn-success"/>
+            &nbsp;
+            <Link to={{ pathname: '/register' }} className="btn btn-primary">Register</Link>
 
           </form>
-          <Link to={{ pathname: '/register' }}>Register</Link>
+          
         </div>
       </div>
     );

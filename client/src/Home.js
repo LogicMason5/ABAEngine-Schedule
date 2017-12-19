@@ -14,6 +14,11 @@ class Home extends Component {
     };
 
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleUserClick = this.handleUserClick.bind(this);
+  }
+
+  handleUserClick(userId) {
+    this.props.history.push('/users/' + userId);
   }
 
   handleLogout(event) {
@@ -82,46 +87,40 @@ class Home extends Component {
 
   render() {
     const { username, fname, lname, email } = this.state;
-      return (
-        <div>
-          <label> Username: {username} </label>
+    return (
+      <div className="container">
+        <h2>Users</h2>          
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Firstname</th>
+              <th>Lastname</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <ListItems users={this.state.users} {...this.props}/>
+        </table>
 
-          <br></br>
-        
-          <label> First Name: {fname} </label>
-
-          <br></br>
-
-          <label> Last Name: {lname} </label>
-
-          <br></br>
-
-          <label> Email: {email} </label>
-
-          <br></br>
-
-          <button onClick={this.handleLogout}>
-            Logout
-          </button>
-
-          
-          <br></br>
-
-          <UserList users={this.state.users}/>
-        </div>
+        <button type="button" class="btn btn-danger" onClick={this.handleLogout}>Logout</button>
+      </div>
     );  
   }
 }
 
-function UserList(props) {
+function ListItems(props) {
   const listItems = props.users.map((user) =>
-    <li key={user.id}>Username: {user.username}, Name: {user.fname} {user.lname}</li>
+    <tr key={user.id} onClick={() => props.history.push('/users/' + user.id)}>
+      <td>{user.username}</td>
+      <td>{user.fname}</td>
+      <td>{user.lname}</td>
+      <td>{user.email}</td>
+    </tr>
   );
   return (
-    <div>
-      <h2>All Users</h2>
-      <ul>{listItems}</ul>
-    </div>
+    <tbody style={{"textAlign":"left"}}>
+      {listItems}
+    </tbody>
   );
 }
 
