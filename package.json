@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha test/**/*.js",
-    "start": "nodemon --watch server index.js"
+    "start": "nodemon --watch server index.js",
+    "client-install": "cd client && npm i",
+    "client-build": "cd client && npm run build"
   },
   "repository": {
     "type": "git",
