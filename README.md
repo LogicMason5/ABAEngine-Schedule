@@ -1,39 +1,22 @@
-# MERN-Exam
+# ABAEngine Schedule App  
+_A sleek dashboard for schedule management_
 
-Develop a simple App for us using ReactJS, Node, Express and MongoDB(it is ok to use a different database if you don't know MongoDB).
+## 🚀 Project Overview  
+The **ABAEngine Schedule App** provides a web-based interface for managing schedules, built as part of the ABAEngine suite. It offers an intuitive admin interface where users can view, create, edit and track scheduling data in real time.
 
-## Requirements
+Key features include:  
+- Responsive, modern web UI  
+- Real-time updates & dynamic interactions  
+- Role-based access (Admins, Managers, etc.)  
+- Integration with backend scheduling APIs  
+- Clean, maintainable codebase built for scalability  
 
-The App should have a UI portion and an API.  
+## 🧑‍💻 Technologies  
+- Frontend: React/Redux, Javascript, Material UI, Styled Components
+- Backend: Node.js, Express, or other service powering the API  , Typeorm, Socket.io
+- Database: PostgreSQL 
+- Deployment: Hosted on AWS / Docker / CI-CD pipelines  
 
-The API should speak JSON and provide endpoints to accomplish the following:
+> _Note: Please update the above list to reflect the actual stack._
 
-Create a new user (username, password, first name, last name and email). The response should return the user id
 
-Sign in the user (via username and pass). The response should return a session token
-
-Fetch user data, i.e. GET /user/123 (authorize by token)
-
-Delete the user's session. The response should be 200 and the token should no longer be honored
-
-The UI should make it possible to do the API functionality mentioned above. Also we should be able to see a list of users as well as an individual user record. 
-
-## Clone Repository
-`git clone https://github.com/gilosmichaelcodev/MERN-Exam.git`
-
-## Installation
-
-`cd MERN-Exam`
-
-`npm install`
-
-`npm run client-install`
-
-`npm run client-build`
-
-## Running App
-
-`npm start`
-
-## Running Test
-`npm test`
